@@ -14,7 +14,7 @@ jobs:
   style:
 
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     # A strategy creates a build matrix for your jobs
     strategy:
@@ -46,12 +46,6 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip list
 
-      # Install pre-commit from .pre-commit-config.yaml
-      - name: Install pre-commit
-        run: |
-          pre-commit install
-
-      # Run pre-commit on all the files in the repo
       - name: Run tests
         run: |
           python ./scripts/run_test.py
