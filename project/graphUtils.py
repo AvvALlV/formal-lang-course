@@ -2,7 +2,7 @@ import cfpq_data
 from collections import namedtuple
 import networkx as nx
 
-GraphInfo = namedtuple("Graph", ["number_of_vertices", "number_of_edges", "labels"])
+GraphInfo = namedtuple("GraphInfo", ["number_of_vertices", "number_of_edges", "labels"])
 
 
 def get_graph_info_by_name(name: str) -> GraphInfo:
