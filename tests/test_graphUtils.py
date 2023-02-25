@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 from textwrap import dedent
 
 
-def test_graph_info():
+def test_get_graph_info():
     graphSkos = graphU.get_graph_info_by_name("skos")
     assert graphSkos.number_of_vertices == 144
     assert graphSkos.number_of_edges == 252
@@ -14,7 +14,7 @@ def test_graph_info():
     assert graphBzip.number_of_edges == 556
 
 
-def test_create_labeled_two_cycles_graph():
+def test_save_labeled_two_cycles_graph():
     path_to_graph = ""
     with NamedTemporaryFile(delete=False) as f:
         path_to_graph = f.name
