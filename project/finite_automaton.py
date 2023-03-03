@@ -7,6 +7,12 @@ import networkx as nx
 
 
 def regex_to_dfa(regex_str: str) -> DeterministicFiniteAutomaton:
+    """
+    Build deterministic finite automaton from a regular expression
+    :param regex_str: academic regular expression in string representation
+    :return: minimized deterministic finite automaton
+    """
+
     regex = Regex(regex_str)
     nfa_from_regex = regex.to_epsilon_nfa()
     return nfa_from_regex.minimize()
@@ -15,6 +21,14 @@ def regex_to_dfa(regex_str: str) -> DeterministicFiniteAutomaton:
 def graph_to_nfa(
     graph: nx.MultiDiGraph, starts_states=None, final_states=None
 ) -> NondeterministicFiniteAutomaton:
+    """
+    Build nondeterministic finite automaton from directed graph
+    :param graph: the graph with field 'label' on edges for conversion to NFA
+    :param starts_states: iterable object with initial states, can be None
+    :param final_states: iterable object with final states, can be None.
+    :return: not minimized nfa
+    """
+
     nfa_from_graph = NondeterministicFiniteAutomaton(graph.graph)
 
     if starts_states is None:
