@@ -1,7 +1,6 @@
 import pytest
-import project.graphUtils as graphU
+import project.graph_utils as graphU
 from tempfile import NamedTemporaryFile
-from textwrap import dedent
 
 
 def test_get_graph_info():
