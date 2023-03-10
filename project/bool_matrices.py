@@ -6,32 +6,50 @@ class BoolMatrices:
     """
     Сlass implements boolean decomposition
     """
+
     def __init__(self, nfa: NondeterministicFiniteAutomaton = None):
         if nfa is None:
-            self.states, self.start_states, self.final_states, self.states_indices = set(), set(), set(), dict()
+            self.states, self.start_states, self.final_states, self.states_indices = (
+                set(),
+                set(),
+                set(),
+                dict(),
+            )
             self.bool_matrcies, self.count_of_states = dict(), 0
         else:
-            self.states, self.start_states, self.final_states = nfa.states, nfa.start_states, nfa.final_states
-            self.states_indices = {state: index for index, state in enumerate(nfa.states)}
+            self.states, self.start_states, self.final_states = (
+                nfa.states,
+                nfa.start_states,
+                nfa.final_states,
+            )
+            self.states_indices = {
+                state: index for index, state in enumerate(nfa.states)
+            }
 
             self.count_of_states = len(self.states)
             self.bool_matrcies = dict()
             for from_v, label, to_v in nfa:
-                label_matrix = self.bool_matrcies.setdefault(label,
-                                                             sparse.dok_matrix(
-                                                                 (self.count_of_states, self.count_of_states),
-                                                                 dtype=bool))
-                label_matrix[self.states_indices[from_v], self.states_indices[to_v]] = True
+                label_matrix = self.bool_matrcies.setdefault(
+                    label,
+                    sparse.dok_matrix(
+                        (self.count_of_states, self.count_of_states), dtype=bool
+                    ),
+                )
+                label_matrix[
+                    self.states_indices[from_v], self.states_indices[to_v]
+                ] = True
 
-    def intersect(self, other: 'BoolMatrices') -> 'BoolMatrices':
+    def intersect(self, other: "BoolMatrices") -> "BoolMatrices":
         """
         Intersection of two finite automaton in boolean decomposition
         :param other: Another finite automaton in boolean decomposition
         :return: result of intersection like bool matrix
         """
         intersect_labels = self.bool_matrcies.keys() & other.bool_matrcies.keys()
-        result_bool_matrices = {label: sparse.kron(self.bool_matrcies[label], other.bool_matrcies[label])
-                                for label in intersect_labels}
+        result_bool_matrices = {
+            label: sparse.kron(self.bool_matrcies[label], other.bool_matrcies[label])
+            for label in intersect_labels
+        }
 
         result = BoolMatrices()
         result.bool_matrcies = result_bool_matrices

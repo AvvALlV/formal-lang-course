@@ -4,8 +4,9 @@ from pyformlang.finite_automaton import NondeterministicFiniteAutomaton
 import networkx as nx
 
 
-def request_intersect_nfa(fa1: NondeterministicFiniteAutomaton,
-                          fa2: NondeterministicFiniteAutomaton) -> NondeterministicFiniteAutomaton:
+def request_intersect_nfa(
+    fa1: NondeterministicFiniteAutomaton, fa2: NondeterministicFiniteAutomaton
+) -> NondeterministicFiniteAutomaton:
     """
     Intersections of two finite automaton
     :param fa1: first nondeterministic finite automaton
@@ -16,8 +17,12 @@ def request_intersect_nfa(fa1: NondeterministicFiniteAutomaton,
     return bool_fa1.intersect(bool_fa2).to_nfa()
 
 
-def regular_requests_to_graph(regex: str, graph: nx.MultiDiGraph, start_states: set = None,
-                              final_states: set = None) -> set:
+def regular_requests_to_graph(
+    regex: str,
+    graph: nx.MultiDiGraph,
+    start_states: set = None,
+    final_states: set = None,
+) -> set:
     """
     Given a graph with the given start and end vertices and a regular expression, returns those pairs of vertices
     from the given start and end vertices that are connected by a path that forms a word from the language given
@@ -40,8 +45,6 @@ def regular_requests_to_graph(regex: str, graph: nx.MultiDiGraph, start_states: 
     result = set()
     for s1, s2 in zip(*tc.nonzero()):
         if s1 in bintersect.start_states and s2 in bintersect.final_states:
-            result.add((s1 // bdfa.count_of_states,
-                        s2 // bdfa.count_of_states)
-                       )
+            result.add((s1 // bdfa.count_of_states, s2 // bdfa.count_of_states))
 
     return result
