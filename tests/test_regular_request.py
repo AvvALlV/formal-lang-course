@@ -14,7 +14,7 @@ def test_request_intersect_nfa():
     for fa1 in dfas:
         for fa2 in dfas:
             expected = fa1.get_intersection(fa2)
-            got = rr.request_intersect_nfa(fa1, fa2)
+            got = rr.regular_path_querying(fa1, fa2)
             assert expected.is_equivalent_to(got)
 
 

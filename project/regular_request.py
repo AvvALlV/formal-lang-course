@@ -4,7 +4,7 @@ from pyformlang.finite_automaton import NondeterministicFiniteAutomaton
 import networkx as nx
 
 
-def request_intersect_nfa(
+def regular_path_querying(
     fa1: NondeterministicFiniteAutomaton, fa2: NondeterministicFiniteAutomaton
 ) -> NondeterministicFiniteAutomaton:
     """
