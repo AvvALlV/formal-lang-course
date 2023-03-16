@@ -54,7 +54,7 @@ def test_regular_requests_to_graph3():
     assert rr.regular_requests_to_graph("", graph) == set()
 
 
-def test_works_as_expected():
+def test_bfs_requests_to_graph1():
     graph = MultiDiGraph()
     graph.add_edges_from(
         [
@@ -70,7 +70,7 @@ def test_works_as_expected():
     assert result == {2}
 
 
-def test_works_as_expected_for_each():
+def test_bfs_requests_to_graph2():
     graph = MultiDiGraph()
     graph.add_edges_from(
         [
@@ -85,13 +85,13 @@ def test_works_as_expected_for_each():
     assert result == {(0, 2), (1, 2)}
 
 
-def test_empty_graph():
+def test_bfs_requests_to_graph3():
     graph = MultiDiGraph()
     assert rr.bfs_requests_to_graph("something or someone", graph, False) == set()
     assert rr.bfs_requests_to_graph("something or someone", graph, True) == set()
 
 
-def test_empty_query():
+def bfs_requests_to_graph_4():
     graph = MultiDiGraph()
     graph.add_edges_from(
         [

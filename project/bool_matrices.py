@@ -182,6 +182,8 @@ class BoolMatrices:
                 state = first_index * other.count_of_states + second_index
                 result.states_indices[state] = state
 
+        if not isinstance(self.start_states, set):
+            self.start_states = set()
         result.states = self.states | set(
             (State(state.value + self.count_of_states) for state in other.states)
         )
