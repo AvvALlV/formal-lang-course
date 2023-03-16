@@ -52,3 +52,57 @@ def test_regular_requests_to_graph3():
         ]
     )
     assert rr.regular_requests_to_graph("", graph) == set()
+
+
+def test_works_as_expected():
+    graph = MultiDiGraph()
+    graph.add_edges_from(
+        [
+            (0, 1, {"label": "c"}),
+            (0, 2, {"label": "a"}),
+            (1, 2, {"label": "a"}),
+            (2, 2, {"label": "b"}),
+        ]
+    )
+    regex = "a.b*"
+
+    result = rr.bfs_requests_to_graph(regex, graph, False, {0}, {2})
+    assert result == {2}
+
+
+def test_works_as_expected_for_each():
+    graph = MultiDiGraph()
+    graph.add_edges_from(
+        [
+            (0, 1, {"label": "c"}),
+            (0, 2, {"label": "a"}),
+            (1, 2, {"label": "a"}),
+            (2, 2, {"label": "b"}),
+        ]
+    )
+    regex = "a.b*"
+    result = rr.bfs_requests_to_graph(regex, graph, True, {0, 1}, {2})
+    assert result == {(0, 2), (1, 2)}
+
+
+def test_empty_graph():
+    graph = MultiDiGraph()
+    assert rr.bfs_requests_to_graph("something or someone", graph, False) == set()
+    assert rr.bfs_requests_to_graph("something or someone", graph, True) == set()
+
+
+def test_empty_query():
+    graph = MultiDiGraph()
+    graph.add_edges_from(
+        [
+            (0, 1, {"label": "s"}),
+            (1, 2, {"label": "o"}),
+            (2, 3, {"label": "m"}),
+            (3, 4, {"label": "t"}),
+            (4, 5, {"label": "h"}),
+            (5, 6, {"label": "i"}),
+            (6, 7, {"label": "n"}),
+            (8, 9, {"label": "g"}),
+        ]
+    )
+    assert rr.bfs_requests_to_graph("", graph, False) == set()
