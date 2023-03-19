@@ -48,3 +48,27 @@ def regular_requests_to_graph(
             result.add((s1 // bdfa.count_of_states, s2 // bdfa.count_of_states))
 
     return result
+
+
+def bfs_requests_to_graph(
+    regex: str,
+    graph: nx.MultiDiGraph,
+    separated: bool,
+    start_states: set = None,
+    final_states: set = None,
+):
+    """
+    Searches for reachability with regular constraints for several starting vertices.
+    :param regex: academic regular expression in string representation
+    :param graph: the graph with field 'label' on edges for conversion to NFA
+    :param separated: type of task
+    :param start_states: iterable object with initial states, can be None
+    :param final_states: iterable object with final states, can be None.
+    :return: set of reachable vertices
+    """
+    nfa = fa.graph_to_nfa(graph, start_states, final_states)
+    dfa = fa.regex_to_dfa(regex)
+
+    bnfa, bdfa = bm.BoolMatrices(nfa), bm.BoolMatrices(dfa)
+
+    return bnfa.bfs_based_rpq(bdfa, separated)
