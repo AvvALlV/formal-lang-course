@@ -80,7 +80,7 @@ def test_bfs_requests_to_graph2():
             (2, 2, {"label": "b"}),
         ]
     )
-    regex = "a.b*"
+    regex = "a*b*"
     result = rr.bfs_requests_to_graph(regex, graph, True, {0, 1}, {2})
     assert result == {(0, 2), (1, 2)}
 
