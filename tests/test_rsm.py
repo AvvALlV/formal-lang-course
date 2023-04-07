@@ -26,6 +26,7 @@ def test_ecfg_to_rsm():
     assert rsm.boxes[Variable("S")] == Regex("A.(S.B)").to_epsilon_nfa()
     assert rsm.boxes[Variable("A")] == Regex("a|b").to_epsilon_nfa()
 
+
 def test_rsm_minimize():
     cfg = CFG.from_text(
         dedent(

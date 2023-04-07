@@ -52,7 +52,10 @@ class ECFG:
                 if len(production.body) > 0
                 else ""
             )
-            productions[production.head] = regex if production.head not in productions else productions[
-                production.head].union(regex)
+            productions[production.head] = (
+                regex
+                if production.head not in productions
+                else productions[production.head].union(regex)
+            )
 
         return ECFG(cfg.start_symbol, productions)
