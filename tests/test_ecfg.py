@@ -1,3 +1,5 @@
+from tempfile import NamedTemporaryFile
+
 from project.ecfg import ECFG
 from pyformlang.cfg import Variable, CFG
 from pyformlang.regular_expression import Regex
@@ -14,6 +16,39 @@ def test_from_text():
                                 """
         )
     )
+    assert ecfg.start_symbol == Variable("S")
+    assert (
+        ecfg.productions[Variable("S")].sons[0].head.value
+        == Regex("A.B").sons[0].head.value
+    )
+    assert (
+        ecfg.productions[Variable("S")].sons[1].head.value
+        == Regex("A.B").sons[1].head.value
+    )
+    assert (
+        ecfg.productions[Variable("A")].sons[0].head.value
+        == Regex("a*b").sons[0].head.value
+    )
+    assert (
+        ecfg.productions[Variable("A")].sons[1].head.value
+        == Regex("a*b").sons[1].head.value
+    )
+
+
+def test_from_file():
+    path = ""
+    with NamedTemporaryFile(mode="w", delete=False) as f:
+        f.write(
+            dedent(
+                """
+            S->A.B
+            A->a*b
+            """
+            )
+        )
+        path = f.name
+
+    ecfg = ECFG.from_file(path)
     assert ecfg.start_symbol == Variable("S")
     assert (
         ecfg.productions[Variable("S")].sons[0].head.value

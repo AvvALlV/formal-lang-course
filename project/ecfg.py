@@ -39,6 +39,11 @@ class ECFG:
         return ECFG(start_symbol, productions)
 
     @staticmethod
+    def from_file(filename):
+        with open(filename) as f:
+            return ECFG.from_text(f.read())
+
+    @staticmethod
     def from_CFG(cfg: CFG) -> "ECFG":
         """
         Convert cfg to ecfg
