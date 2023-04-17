@@ -49,16 +49,18 @@ def hellings(cfg: CFG, graph: MultiDiGraph):
 def helling_from_text(cfg: str, graph: MultiDiGraph):
     return hellings(CFG.from_text(cfg), graph)
 
+
 def helling_from_file(filename: str, graph):
     with open(filename) as f:
         return hellings(CFG.from_text(f.read()), graph)
 
+
 def cfpq(
-        cfg: CFG,
-        graph: MultiDiGraph,
-        start_nodes=None,
-        final_nodes=None,
-        symbol=Variable("S"),
+    cfg: CFG,
+    graph: MultiDiGraph,
+    start_nodes=None,
+    final_nodes=None,
+    symbol=Variable("S"),
 ):
     """
     A function that allows solving the reachability problem for a given set of start and end
@@ -84,18 +86,24 @@ def cfpq(
     return result
 
 
-def cfpq_from_text(cfg: str,
-                   graph: MultiDiGraph,
-                   start_nodes=None,
-                   final_nodes=None,
-                   symbol=Variable("S")):
+def cfpq_from_text(
+    cfg: str,
+    graph: MultiDiGraph,
+    start_nodes=None,
+    final_nodes=None,
+    symbol=Variable("S"),
+):
     return cfpq(CFG.from_text(cfg), graph, start_nodes, final_nodes, symbol)
 
 
-def cfpq_from_file(filename: str,
-                   graph: MultiDiGraph,
-                   start_nodes=None,
-                   final_nodes=None,
-                   symbol=Variable("S")):
+def cfpq_from_file(
+    filename: str,
+    graph: MultiDiGraph,
+    start_nodes=None,
+    final_nodes=None,
+    symbol=Variable("S"),
+):
     with open(filename) as f:
-        return cfpq(CFG.from_text(f.read(filename)), graph, start_nodes, final_nodes, symbol)
+        return cfpq(
+            CFG.from_text(f.read(filename)), graph, start_nodes, final_nodes, symbol
+        )
