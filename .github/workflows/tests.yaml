@@ -47,7 +47,7 @@ jobs:
           python -m pip list
 
       - name: Generate parser
-        run: build_grammar.sh
+        run: ./build_grammar.sh
 
       - name: Run tests
         run: python ./scripts/run_tests.py
