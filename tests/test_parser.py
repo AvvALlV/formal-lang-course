@@ -517,7 +517,7 @@ def test_to_dot():
 223 -> 224;
 224 [label=var];
 224 -> 225;
-225 [label="TERM: vertices1"];
+225 [label="TERM: vertices2"];
 221 -> 226;
 226 [label="TERM: ="];
 221 -> 227;
