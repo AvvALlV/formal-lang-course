@@ -26,7 +26,7 @@ def check_parser_correct(text: str) -> bool:
     return parser.getNumberOfSyntaxErrors() == 0
 
 
-def generate_dot(text: str, path: str | Path):
+def generate_dot(text: str, path: str):
     if not check_parser_correct(text):
         raise ParseCancellationException("The word doesn't match the grammar")
     ast = parse(text).program()
