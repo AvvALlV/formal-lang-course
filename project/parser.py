@@ -8,6 +8,7 @@ from project.GQLanguageLexer import GQLanguageLexer
 from project.GQLanguageParser import GQLanguageParser
 from project.GQLanguageListener import GQLanguageListener
 
+
 def parse(text: str) -> GQLanguageParser:
     input_stream = InputStream(text)
     lexer = GQLanguageLexer(input_stream)
@@ -16,6 +17,7 @@ def parse(text: str) -> GQLanguageParser:
     parser = GQLanguageParser(stream)
 
     return parser
+
 
 def check_parser_correct(text: str) -> bool:
     parser = parse(text)
@@ -29,19 +31,16 @@ def generate_dot(text: str, path: str | Path):
         raise ParseCancellationException("The word doesn't match the grammar")
     ast = parse(text).program()
     tree = Dot("tree", graph_type="digraph")
-    ParseTreeWalker().walk(
-        DotTreeListener(tree, GQLanguageParser.ruleNames), ast
-    )
+    ParseTreeWalker().walk(DotTreeListener(tree, GQLanguageParser.ruleNames), ast)
     tree.write(str(path))
+
 
 def generate_dot_str(text: str) -> str:
     if not check_parser_correct(text):
         raise ParseCancellationException("The word doesn't match the grammar")
     ast = parse(text).program()
     tree = Dot("tree", graph_type="digraph")
-    ParseTreeWalker().walk(
-        DotTreeListener(tree, GQLanguageParser.ruleNames), ast
-    )
+    ParseTreeWalker().walk(DotTreeListener(tree, GQLanguageParser.ruleNames), ast)
     return tree.to_string()
 
 

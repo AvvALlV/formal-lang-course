@@ -1,14 +1,17 @@
 from project.parser import check_parser_correct, generate_dot_str
 from textwrap import dedent
+
+
 def test_empty():
     assert check_parser_correct("")
 
+
 def test_not_belongs():
     assert not check_parser_correct("something")
-    assert not check_parser_correct("print");
-    assert not check_parser_correct("let =a ");
-    assert not check_parser_correct("{10 {}{}");
-    assert not check_parser_correct('g1 = load "wine.dot"');
+    assert not check_parser_correct("print")
+    assert not check_parser_correct("let =a ")
+    assert not check_parser_correct("{10 {}{}")
+    assert not check_parser_correct('g1 = load "wine.dot"')
 
 
 def test_print():
@@ -17,11 +20,13 @@ def test_print():
     assert check_parser_correct("print {1, 2, 3, 10};")
     assert check_parser_correct('print load "wine.dot";')
 
+
 def test_bind():
     assert check_parser_correct("let x = 1;")
     assert check_parser_correct("let x = {1..10};")
     assert check_parser_correct("let x = {1, 2, 3, 5};")
     assert check_parser_correct('let g1 = load "wine.dot";')
+
 
 def test_lambda():
     assert check_parser_correct("let res = map (get_edges g) with g => g;")
@@ -29,7 +34,8 @@ def test_lambda():
     assert not check_parser_correct("let res = g => g")
     assert not check_parser_correct("g => g => g;")
 
-example1 = """let g1 = load "wine.dot"; 
+
+example1 = """let g1 = load "wine.dot";
 let g = set_start {0..100} of (set_final (get_vertices g1) of g1);
 
 let l1 = "l1" | "l2";
@@ -53,6 +59,7 @@ let vertices = vertices1 & vertices2;
 print vertices;
 """
 
+
 def test_example_belongs():
     assert check_parser_correct(example1)
 
@@ -60,7 +67,8 @@ def test_example_belongs():
 def test_to_dot():
     res = generate_dot_str(example1)
     print(dedent(res))
-    assert dedent(res) == dedent("""digraph tree {
+    assert dedent(res) == dedent(
+        """digraph tree {
 1 [label=program];
 1 -> 2;
 2 [label=stmt];
@@ -695,4 +703,5 @@ def test_to_dot():
 1 -> 317;
 317 [label="TERM: <EOF>"];
 }
-""")
+"""
+    )
