@@ -1,4 +1,5 @@
-<pre>
+grammar GQLanguage;
+
 program: (stmt ';')* EOF;
 
 pattern: var | '(' pattern (',' pattern)* ')';
@@ -37,6 +38,7 @@ expr:
     | '{' expr (',' expr)* '}'
     | '(' expr ')';
 
+
 COMMENT: ('//' ~[\n]* | '/*' .*? '*/') -> skip;
 WS: [ \t\n\r]+ -> channel(HIDDEN);
 IDENT: [a-zA-Z_][a-zA-Z_0-9]*;
@@ -44,34 +46,4 @@ INT: [0-9]+;
 SET: '{' '}' // пустое множество
     |  '{' ELEM (',' ELEM)* '}';
 ELEM: INT | INT '..' INT;
-STRING: '"' (IDENT | ' ' )* '"';
-</pre>
-
-
-
-### Примеры
-
-<pre>
-let g1 = load 'wine.dot';
-let g = set_start {0..100} of set_final (get_vertices g1) of g1;
-
-let l1 = "l1" | "l2";
-let q1 = ("type" | l1)*;
-
-
-let q2 = "sub_class_of" + l1;
-
-let res1 = g & q1;
-let res2 = g & q2;
-
-
-print res1;
-
-let s = get_start g;
-
-let vertices1 = filter (map (get_edges res1) with ((u_g, u_q1), l, (v_g, v_q1)) => u_g) with v => v in s;
-let vertices2 = filter (map (get_edges res2) with ((u_g, u_q2), l, (v_g, v_q2)) => u_g) with (v => v in s);
-
-let vertices = vertices1 & vertices2;
-print vertices;
-</pre>
+STRING: '"' (~["\\] | '\\' ["\\tvbn])* '"';
