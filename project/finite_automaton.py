@@ -48,3 +48,30 @@ def graph_to_nfa(
     )
 
     return nfa_from_graph
+
+
+def set_states(nfa, start_states=None, final_states=None):
+    tmp_nfa = nfa.copy()
+    tmp_nfa._start_state = set()
+    tmp_nfa._final_states = set()
+    if start_states:
+        for start in start_states:
+            tmp_nfa.add_start_state(start)
+
+    if final_states:
+        for final in final_states:
+            tmp_nfa.add_start_state(final)
+
+    return tmp_nfa
+
+
+def add_states(nfa, start_states=None, final_states=None):
+    tmp_nfa = nfa.copy()
+    if start_states:
+        for start in start_states:
+            tmp_nfa.add_start_state(start)
+    if final_states:
+        for final in final_states:
+            tmp_nfa.add_start_state(final)
+
+    return tmp_nfa

@@ -1,2 +1,2 @@
 #!/bin/sh
-antlr4 -Dlanguage=Python3 ./project/GQLanguage.g4
+antlr4 -Dlanguage=Python3 -visitor ./project/GQLanguage.g4
