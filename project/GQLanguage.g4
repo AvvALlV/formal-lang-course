@@ -2,48 +2,53 @@ grammar GQLanguage;
 
 program: (stmt ';')* EOF;
 
-pattern: var | '(' pattern (',' pattern)* ')';
-bind: 'let' pattern '=' expr;
-print: 'print' expr;
+pattern: var                             # varPattern
+        | '(' pattern (',' pattern)* ')' # setPattern;
+bind: 'let' name=pattern '=' body=expr;
+print: 'print' value=expr;
 
 stmt: bind | print;
 
-val: STRING | INT | SET;
+intLiteral: INT;
+stringLiteral: STRING;
+setLiteral: '{' '}'                # emptySet
+    |  '{' elem (',' elem)* '}'    # notEmptySet;
+
+elem: el=intLiteral                           #elSet
+      | from=intLiteral '..' to=intLiteral    #rangeSet;
+
+val: stringLiteral | intLiteral | setLiteral;
 var: IDENT;
 
-lambda: pattern '=>' expr | '(' lambda ')';
+lambda: args=pattern '=>' body=expr   #lambdaLiteral
+        |  '(' internalLambda=lambda ')'   #lambdaParens;
 
 expr:
-    var
-    | val
-    | 'set_start' expr 'of'  expr
-    | 'set_final' expr 'of' expr
-    | 'add_start' expr 'of' expr
-    | 'add_finals' expr 'of' expr
-    | 'get_start' expr
-    | 'get_final' expr
-    | 'get_reachable' expr
-    | 'get_vertices' expr
-    | 'get_edges' expr
-    | 'get_labels' expr
-    | 'map' expr 'with' lambda
-    | 'filter' expr 'with' lambda
-    | 'load' STRING
-    | expr '&' expr // пересечение
-    | expr '|' expr // объединение
-    | expr '+' expr // конкатенация
-    | expr '*'  // замыкание
-    | expr '<<' expr // единичиный переход
-    | expr 'in' expr // проверка на вхождение
-    | '{' expr (',' expr)* '}'
-    | '(' expr ')';
-
+    '{' el1=expr (',' el=expr)* '}'                  # exprSet
+    | 'set_start' states=expr 'of' automaton=expr               # exprSetStart
+    | 'set_final' states=expr 'of' automaton=expr                # exprSetFinal
+    | 'add_start' states=expr 'of' automaton=expr                # exprAddStart
+    | 'add_finals' states=expr 'of' automaton=expr               # exprAddFinals
+    | 'get_start' automaton=expr                          # exprGetStart
+    | 'get_final' automaton=expr                          # exprGetFinal
+    | 'get_reachable' automaton=expr                      # exprGetReachable
+    | 'get_vertices' automaton=expr                       # exprGetVertices
+    | 'get_edges' automaton=expr                          # exprGetEdges
+    | 'get_labels' automaton=expr                         # exprGetLabels
+    | 'map' usedSet=expr 'with' func=lambda                  # exprMap
+    | 'filter' usedSet=expr 'with' func=lambda               # exprFilter
+    | 'load' name=stringLiteral                             # exprLoad
+    | left=expr '&' right=expr                             # exprIntersect
+    | left=expr '|' right=expr                             # exprUnion
+    | left=expr '+' right=expr                             # exprConcat
+    | first=expr '*'                                  # exprKleene
+    | left=expr 'in' right=expr                            # exprContains
+    | '(' internalExpr=expr ')'                              # exprParens
+    | val                                       # exprVal
+    | var                                         # exprVar;
 
 COMMENT: ('//' ~[\n]* | '/*' .*? '*/') -> skip;
 WS: [ \t\n\r]+ -> channel(HIDDEN);
 IDENT: [a-zA-Z_][a-zA-Z_0-9]*;
 INT: [0-9]+;
-SET: '{' '}' // пустое множество
-    |  '{' ELEM (',' ELEM)* '}';
-ELEM: INT | INT '..' INT;
 STRING: '"' (~["\\] | '\\' ["\\tvbn])* '"';
