@@ -1,5 +1,5 @@
 import sys
-from interpreter import *
+from project.interpreter.interpreter import *
 
 
 def main(*argv):

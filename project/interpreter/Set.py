@@ -23,18 +23,6 @@ class Set(Type):
 
     @staticmethod
     def getType(s: set) -> type:
-        """
-        Parameters
-        ----------
-        s: set
-            Python set object
-
-        Returns
-        -------
-        t: type
-            First element type
-        """
-
         if len(s) == 0:
             return type(None)
 
@@ -44,19 +32,6 @@ class Set(Type):
 
     @staticmethod
     def _typeConsistency(s: set) -> bool:
-        """
-        Parameters
-        ----------
-        s: set
-            Python set object
-
-        Returns
-        -------
-        is_consistent: bool
-            True if elements have the same type
-            False otherwise
-        """
-
         if len(s) == 0:
             return True
 
