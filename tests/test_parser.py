@@ -730,4 +730,4 @@ def test_to_dot():
 330 [label="TERM: <EOF>"];
 }
 """
-)
+    )
