@@ -1,4 +1,4 @@
-from Visitor import *
+from project.interpreter.Visitor import *
 import sys
 
 
